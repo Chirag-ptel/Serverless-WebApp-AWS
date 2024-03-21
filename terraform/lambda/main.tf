@@ -3,7 +3,7 @@ resource "aws_lambda_function" "backend_lambda" {
   # path.module in the filename.
   filename      = "${path.module}/../../3_ServerlessBackend/3_ServerlessBackend.zip"
   package_type  = "Zip"
-  function_name = "wild-ryde-backend-func"
+  function_name = var.func_name
   role          = aws_iam_role.role_for_lambda.arn
   handler       = "index.handler"
   architectures = ["x86_64"]
