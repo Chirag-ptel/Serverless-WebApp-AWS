@@ -49,8 +49,8 @@ resource "aws_lambda_permission" "lambda_invoke_permission" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.backend_lambda.function_name
   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.lambda_backend_api.id}/*/${aws_api_gateway_method.post_method.http_method}${aws_api_gateway_resource.api_gw_resource.path}"
-  source_arn    = "${aws_api_gateway_rest_api.lambda_backend_api.execution_arn}/*" 
+  source_arn    = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.lambda_backend_api.id}/*/${aws_api_gateway_method.post_method.http_method}${aws_api_gateway_resource.api_gw_resource.path}"
+  # source_arn    = "${aws_api_gateway_rest_api.lambda_backend_api.execution_arn}/*" 
 }
 
 resource "aws_api_gateway_deployment" "test_deplyment" {
@@ -72,3 +72,7 @@ resource "aws_api_gateway_stage" "test_stage" {
   rest_api_id   = aws_api_gateway_rest_api.lambda_backend_api.id
   stage_name    = "test"
 }
+
+output "execute_url" {
+  value = aws_api_gateway_rest_api.lambda_backend_api.execution_arn
+  }
